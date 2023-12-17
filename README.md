@@ -15,7 +15,9 @@ Database Used: MySQL
 ## Project Structure
 <a><img src="https://i.ibb.co/19MgdX0/uml.png" alt="uml" border="0"></a><br /><a target='_blank' href='https://nonprofitlight.com/mi/manistee/filer-credit-union'></a><br />
 
-In Postman, created 5 Endpoints are: 
+
+
+1. In Postman, created 5 Endpoints are: 
     | Request Name | Method | URL |
     | --- | --- | --- |
     | GET ALL | GET | localhost:9010/book/ |
@@ -23,7 +25,6 @@ In Postman, created 5 Endpoints are:
     | CREATE | POST | localhost:9010/book/ |
     | UPDATE | PUT | localhost:9010/book/{id} |
     | DELETE | DELETE | localhost:9010/book/{id} |
-
     
 
 ## Build and run
