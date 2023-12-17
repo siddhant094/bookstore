@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	// "encoding/json"
 	"fmt"
 	"go-mysql/models"
 
@@ -91,7 +90,7 @@ func CreateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
 
 	// Use QueryRowContext to execute the SELECT query and get a single row result
 	err = ctx.DB().QueryRowContext(ctx, querySelect, lastInsertID).
-		Scan(&resp.Name, &resp.Author, &resp.Publication)
+		Scan(&resp.ID, &resp.Name, &resp.Author, &resp.Publication)
 
 	// Handle the error if any
 	if err != nil {
@@ -112,6 +111,7 @@ func UpdateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
 	_, err := ctx.DB().ExecContext(ctx, queryInsert, emp.Name, emp.Author, emp.Publication, id)
 
 	if err != nil {
+		// return models.Book{}, errors.DB{Err: err}
 		return models.Book{}, errors.DB{Err: err}
 	}
 
@@ -151,5 +151,8 @@ func DeleteBook(ctx *gofr.Context) (interface{}, error) {
 		return models.Book{}, errors.DB{Err: err}
 	}
 	fmt.Println("Success ")
-	return result, nil
+	return "Book Deleted", nil
+	// return ctx.json(200, "Book Deleted")
+	// return (map[string]string{"message": "Book Deleted"}), nil
+
 }
