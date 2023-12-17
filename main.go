@@ -27,6 +27,7 @@ func main() {
 
 	app.GET("/book", controllers.GetBooks)
 	app.GET("/book/{bookId}", controllers.GetBookById)
+
 	app.POST("/book", func (ctx *gofr.Context) (interface{}, error) {
 		var emp models.Book
 		if err := ctx.Bind(&emp); err != nil {
@@ -42,7 +43,20 @@ func main() {
 		return resp, nil
 	})
 
-	app.PUT("/book/{bookId}", controllers.UpdateBook)
+	app.PUT("/book/{bookId}", func (ctx *gofr.Context) (interface{}, error) {
+		var emp models.Book
+		if err := ctx.Bind(&emp); err != nil {
+			ctx.Logger.Errorf("error in binding: %v", err)
+			return nil, errors.InvalidParam{Param: []string{"body"}}
+		}
+	
+		resp, err := controllers.UpdateBook(ctx, emp)
+		if err != nil {
+			return nil, err
+		}
+	
+		return resp, nil
+	})
 	app.DELETE("/book/{bookId}", controllers.DeleteBook)
 
 	

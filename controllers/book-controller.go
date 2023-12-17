@@ -87,7 +87,7 @@ func CreateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
 	}
 
 	// Now, use a separate SELECT query to fetch the inserted data
-	querySelect := "SELECT name, author, publication FROM books WHERE id = ?"
+	querySelect := "SELECT * FROM books WHERE id = ?"
 
 	// Use QueryRowContext to execute the SELECT query and get a single row result
 	err = ctx.DB().QueryRowContext(ctx, querySelect, lastInsertID).
@@ -101,9 +101,55 @@ func CreateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
 	return resp, nil
 }
 
-func UpdateBook(ctx *gofr.Context) (interface{}, error) {
-	return "Hello World! UpdateBook", nil
+func UpdateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
+	var resp models.Book
+	id := ctx.PathParam("bookId")
+	fmt.Println(id)
+	
+	queryInsert := "UPDATE books SET name=?, author=?, publication=? WHERE id=?"
+
+	// Execute the INSERT query
+	_, err := ctx.DB().ExecContext(ctx, queryInsert, emp.Name, emp.Author, emp.Publication, id)
+
+	if err != nil {
+		return models.Book{}, errors.DB{Err: err}
+	}
+
+	// lastInsertID, err := result.LastInsertId()
+	if err != nil {
+		return models.Book{}, errors.DB{Err: err}
+	}
+
+	// Now, use a separate SELECT query to fetch the inserted data
+	querySelect := "SELECT * FROM books WHERE id = ?"
+
+	// Use QueryRowContext to execute the SELECT query and get a single row result
+	err = ctx.DB().QueryRowContext(ctx, querySelect, id).
+		Scan(&resp.ID, &resp.Name, &resp.Author, &resp.Publication)
+
+	// Handle the error if any
+	if err != nil {
+		return models.Book{}, errors.DB{Err: err}
+	}
+
+	return resp, nil
 }
+
+
 func DeleteBook(ctx *gofr.Context) (interface{}, error) {
-	return "Hello World! DeleteBook", nil
+	id := ctx.PathParam("bookId")
+	fmt.Println(id)
+
+	queryInsert := "DELETE FROM books WHERE id=?"
+
+	result, err := ctx.DB().ExecContext(ctx, queryInsert, id)
+	fmt.Println(result)
+
+	if err != nil {
+		fmt.Println("ERROR ")
+		fmt.Println(err)
+		return models.Book{}, errors.DB{Err: err}
+	}
+	fmt.Println("Success ")
+	return result, nil
 }
