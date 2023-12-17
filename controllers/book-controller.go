@@ -41,9 +41,31 @@ func GetBooks(ctx *gofr.Context) (interface{}, error) {
 	// return "Hello World! GetBooks", nil
 }
 func GetBookById(ctx *gofr.Context) (interface{}, error) {
-	id := ctx.PathParam("BookId")
+	var books []Book
+	id := ctx.PathParam("bookId")
 	fmt.Println(id)
-	return "Hello World! GetBookById.", nil
+	// Getting the customer from the database using SQL
+	queryInsert := "SELECT * FROM books WHERE id=?"
+
+	// Execute the INSERT query
+	rows, err := ctx.DB().QueryContext(ctx, queryInsert, id)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var book Book
+		if err := rows.Scan(&book.ID, &book.Name, &book.Author, &book.Publication); err != nil {
+			return nil, err
+		}
+
+		books = append(books, book)
+	}
+
+	// return the customer
+	return books, nil
+	
+	// return "Hello World! GetBookById.", nil
 
 }
 
