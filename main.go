@@ -21,10 +21,7 @@ func main() {
 	// initialise gofr object
 	app := gofr.New()
 	fmt.Println("Starting server on port 9000...")
-	app.GET("/greet", func(ctx *gofr.Context) (interface{}, error) {
-        return "Hello Duniya!", nil
-    })
-
+	
 	app.GET("/book", controllers.GetBooks)
 	app.GET("/book/{bookId}", controllers.GetBookById)
 
