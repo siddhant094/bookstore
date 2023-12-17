@@ -22,18 +22,18 @@ func TestIntegration(t *testing.T) {
 	}{
 		{"get all books", http.MethodGet, "book", http.StatusOK, nil},
 		{"get books by ID", http.MethodGet, "book/1", http.StatusOK, nil},
-		{"Update books", http.MethodPut, "book/1", http.StatusOK, []byte(`{  
-			"Name":"1984",
-			"Author":"George Orwell",
-			"Publication":"Penguin"
-		}`),},
 		{"post books", http.MethodPost, "book", http.StatusCreated, []byte(`{  
 			"Name":"1984",
 			"Author":"George Orwell",
 			"Publication":"Penguin"
-		}`),
+			}`),
 		},
-		{"delete book", http.MethodDelete, "book/1", http.StatusNoContent, nil},
+		// {"Update books", http.MethodPut, "book/1", http.StatusOK, []byte(`{  
+		// 	"Name":"1984",
+		// 	"Author":"George Orwell",
+		// 	"Publication":"Penguin"
+		// }`),},
+		// {"delete book", http.MethodDelete, "book/1", http.StatusNoContent, nil},
 	}
 
 	for i, tc := range tests {

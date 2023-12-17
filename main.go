@@ -18,10 +18,9 @@ type Book struct{
 
 
 func main() {
-	// initialise gofr object
 	app := gofr.New()
 	fmt.Println("Starting server on port 9000...")
-	
+
 	app.GET("/book", controllers.GetBooks)
 	app.GET("/book/{bookId}", controllers.GetBookById)
 
