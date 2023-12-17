@@ -7,11 +7,6 @@ import (
 	"gofr.dev/pkg/gofr"
 )
 
-type Customer struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 func main() {
 	// initialise gofr object
 	app := gofr.New()
