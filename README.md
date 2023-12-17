@@ -20,11 +20,11 @@ Database Used: MySQL
 1. In Postman, created 5 Endpoints are: 
     | Request Name | Method | URL |
     | --- | --- | --- |
-    | GET ALL | GET | localhost:9010/book/ |
-    | GET BY ID | GET | localhost:9010/book/{id} |
-    | CREATE | POST | localhost:9010/book/ |
-    | UPDATE | PUT | localhost:9010/book/{id} |
-    | DELETE | DELETE | localhost:9010/book/{id} |
+    | GET ALL | GET | localhost:9000/book/ |
+    | GET BY ID | GET | localhost:9000/book/{id} |
+    | CREATE | POST | localhost:9000/book/ |
+    | UPDATE | PUT | localhost:9000/book/{id} |
+    | DELETE | DELETE | localhost:9000/book/{id} |
     
 
 ## Build and run
