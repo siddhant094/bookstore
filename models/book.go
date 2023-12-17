@@ -6,7 +6,7 @@ package models
 // var db *gorm.DB
 
 type Book struct {
-	ID    int    `json:"id"`
+	ID string `json:"id"`
 	Name string `json:"name"` 
 	Author string `json:"author"`
 	Publication string `json:"publication"`	

@@ -14,7 +14,7 @@ func New() Store {
 	return employee{}
 }
 
-func (c employee) Get(ctx *gofr.Context) ([]models.Employee, error) {
+func (c employee) Get(ctx *gofr.Context) ([]models.Book, error) {
 	rows, err := ctx.DB().QueryContext(ctx, "SELECT id,name,email,phone,city FROM employees")
 	if err != nil {
 		return nil, errors.DB{Err: err}
@@ -22,12 +22,12 @@ func (c employee) Get(ctx *gofr.Context) ([]models.Employee, error) {
 
 	defer rows.Close()
 
-	employees := make([]models.Employee, 0)
+	employees := make([]models.Book, 0)
 
 	for rows.Next() {
-		var c models.Employee
+		var c models.Book
 
-		err = rows.Scan(&c.ID, &c.Name, &c.Email, &c.Phone, &c.City)
+		err = rows.Scan(&c.ID, &c.Name, &c.Author, &c.Publication)
 		if err != nil {
 			return nil, errors.DB{Err: err}
 		}

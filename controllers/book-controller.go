@@ -3,13 +3,14 @@ package controllers
 import (
 	// "encoding/json"
 	"fmt"
+	"go-mysql/models"
+
 	"gofr.dev/pkg/errors"
 	"gofr.dev/pkg/gofr"
-	"go-sql/models"
 )
 
 type Book struct{
-	ID    int    `json:"id"`
+	ID string `json:"id"`
 	Name string `json:"name"` 
 	Author string `json:"author"`
 	Publication string `json:"publication"`	
@@ -28,7 +29,7 @@ func GetBooks(ctx *gofr.Context) (interface{}, error) {
 
 	for rows.Next() {
 		var book Book
-		if err := rows.Scan(&book.ID, &book.Name); err != nil {
+		if err := rows.Scan(&book.ID, &book.Name, &book.Author, &book.Publication); err != nil {
 			return nil, err
 		}
 
@@ -46,13 +47,13 @@ func GetBookById(ctx *gofr.Context) (interface{}, error) {
 
 }
 
-func CreateBook(ctx *gofr.Context, , emp models.Book) (models.Book, error) {
+func CreateBook(ctx *gofr.Context, emp models.Book) (models.Book, error) {
 	var resp models.Book
 
-	queryInsert := "INSERT INTO employees (id, name, email, phone, city) VALUES (?, ?, ?, ?, ?)"
+	queryInsert := "INSERT INTO books (name, author, publication) VALUES (?, ?, ?)"
 
 	// Execute the INSERT query
-	result, err := ctx.DB().ExecContext(ctx, queryInsert, emp.ID, emp.Name, emp.Email, emp.Phone, emp.City)
+	result, err := ctx.DB().ExecContext(ctx, queryInsert, emp.Name, emp.Author, emp.Publication)
 
 	if err != nil {
 		return models.Book{}, errors.DB{Err: err}
@@ -64,11 +65,11 @@ func CreateBook(ctx *gofr.Context, , emp models.Book) (models.Book, error) {
 	}
 
 	// Now, use a separate SELECT query to fetch the inserted data
-	querySelect := "SELECT id, name, email, phone, city FROM employees WHERE id = ?"
+	querySelect := "SELECT name, author, publication FROM books WHERE id = ?"
 
 	// Use QueryRowContext to execute the SELECT query and get a single row result
 	err = ctx.DB().QueryRowContext(ctx, querySelect, lastInsertID).
-		Scan(&resp.ID, &resp.Name, &resp.Email, &resp.Phone, &resp.City)
+		Scan(&resp.Name, &resp.Author, &resp.Publication)
 
 	// Handle the error if any
 	if err != nil {
