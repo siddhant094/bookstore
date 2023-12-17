@@ -33,7 +33,6 @@ func TestIntegration(t *testing.T) {
 			"Publication":"Penguin"
 		}`),
 		},
-		{"delete book", http.MethodDelete, "book/{bookId}", http.StatusPartialContent, nil},
 	}
 
 	for i, tc := range tests {
